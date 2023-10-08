@@ -1,0 +1,24 @@
+#div-btn {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-msg {
+    border: none;
+    background-color: green;
+    width: 50%;
+    border-radius: 30px;
+}
+
+#btn-desconectar {
+    border: none;
+    background-color: red;
+    width: 50%;
+    border-radius: 30px;
+}
+
+button:hover {
+    background-color: #4CAF50;
+    cursor: pointer;
+}
