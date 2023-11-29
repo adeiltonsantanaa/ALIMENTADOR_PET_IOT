@@ -1,26 +1,68 @@
 import React, { useState } from 'react';
-import MqttButton from '../MqttButton';
-import './style.css';
+import { Container, Row, Col, Form, InputGroup, FormSelect, Button } from 'react-bootstrap';
+import MqttPublicador from '../MqttPublicador';
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MqttContainer() {
-
     const [broker, setBroker] = useState('broker.hivemq.com');
-    const [topic, setTopic] = useState('tpc/adl');
-    const [message, setMessage] = useState('');
+    const [topico, setTopico] = useState('tpc/adl');
+    const [mensagem, setMensagem] = useState('');
+
+    const handleSetBroker = (e) => {
+        setBroker(e.target.value);
+    };
+
+    const handleSetTopico = (e) => {
+        setTopico(e.target.value);
+    };
+
+    const handleSetMensagem = (e) => {
+        setMensagem(e.target.value);
+    };
 
     return (
-        <div id='mqtt-container'>
-            <h1>MQTT Container</h1>
-
-            <div id='container-conexao'>
-                <label htmlFor="broker">Broker</label>
-                <input disabled className='input-conexao' value={broker} type="text" id="broker" onChange={(e) => setBroker(e.target.value)} />
-
-                <label htmlFor="topic">Tópico</label>
-                <input disabled className='input-conexao' value={topic} type="text" id="topic" onChange={(e) => setTopic(e.target.value)} />
-            </div>
-
-            <MqttButton broker={broker} topic={topic} message={message} />
-        </div>
+        <Container className="text-center" style={{ minHeight: '100vh' }}>
+            <ToastContainer />
+            <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <Col md={6}>
+                    <div>
+                        <h1>Publicador MQTT</h1>
+                        <Form>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="brokerLb">
+                                    Broker
+                                </InputGroup.Text>
+                                <Form.Control
+                                    id="broker"
+                                    value={broker}
+                                    onChange={handleSetBroker}
+                                    disabled
+                                />
+                            </InputGroup>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="topicoLb">
+                                    Tópico
+                                </InputGroup.Text>
+                                <Form.Control
+                                    id="topico"
+                                    value={topico}
+                                    onChange={handleSetTopico}
+                                    disabled
+                                />
+                            </InputGroup>
+                            <FormSelect aria-label="Default select example" onChange={handleSetMensagem} style={{ border: '1px solid #ced4da', borderRadius: '0.25rem', padding: '0.375rem 0.75rem', width: '100%' }}>
+                                <option value="">Selecione uma Ação</option>
+                                <option value="90">Abrir Compartimento 1</option>
+                                <option value="180">Abrir Compartimento 2</option>
+                                <option value="260">Abrir Compartimento 3</option>
+                                <option value="0">Fechar</option>
+                            </FormSelect>
+                        </Form>
+                        <MqttPublicador broker={broker} topico={topico} mensagem={mensagem} />
+                    </div>
+                </Col>
+            </Row>
+        </Container>
     );
-};
+}

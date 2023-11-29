@@ -2,13 +2,13 @@
 #include <PubSubClient.h>
 #include <ESP32Servo.h>
 
-#define ssid "Wokwi-GUEST"
+#define ssid "iPhone de Adeilton Santana"
 #define pass ""
 
 #define BROKER "broker.mqttdashboard.com"
 #define TOPICO_ESCRITA "tpc/ade"
 #define TOPICO_LEITURA "tpc/adl"
-#define PINO_SERVO 15
+#define PINO_SERVO 33
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -63,13 +63,18 @@ void controlarServo(byte *payload, unsigned int length) {
 
 void verificarPosicaoEPublicar() {
   int posicao = servo.read();
-  boolean isAberto = false;
+  char* compartimento = "";
 
-  if (posicao > 3 || posicao < -3) {
-    isAberto = true;
+  Serial.println(posicao);
+  if (posicao > 80 && posicao < 100) {
+    compartimento = "Compartimento 1";
+  } else if (posicao > 170 && posicao < 190) {
+    compartimento = "Compartimento 2";
+  } else {
+    compartimento = "Fechado";
   }
 
-  client.publish(TOPICO_ESCRITA, isAberto ? "true" : "false");
+  client.publish(TOPICO_ESCRITA, compartimento);
 }
 
 void callback(char *topic, byte *payload, unsigned int length) {
@@ -86,9 +91,7 @@ void callback(char *topic, byte *payload, unsigned int length) {
 }
 
 void setup() {
-  randomSeed(micros());
-
-  servo.attach(PINO_SERVO, 500, 2400);
+  servo.attach(PINO_SERVO);
 
   servo.write(0);
 
