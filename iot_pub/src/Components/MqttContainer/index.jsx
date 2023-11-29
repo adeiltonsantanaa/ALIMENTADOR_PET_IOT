@@ -53,10 +53,8 @@ export default function MqttContainer() {
                             </InputGroup>
                             <FormSelect aria-label="Default select example" onChange={handleSetMensagem} style={{ border: '1px solid #ced4da', borderRadius: '0.25rem', padding: '0.375rem 0.75rem', width: '100%' }}>
                                 <option value="">Selecione uma Ação</option>
-                                <option value="90">Abrir Compartimento 1</option>
-                                <option value="180">Abrir Compartimento 2</option>
-                                <option value="260">Abrir Compartimento 3</option>
-                                <option value="0">Fechar</option>
+                                <option value="120">Abrir Compartimento</option>
+                                <option value="5">Fechar</option>
                             </FormSelect>
                         </Form>
                         <MqttPublicador broker={broker} topico={topico} mensagem={mensagem} />
